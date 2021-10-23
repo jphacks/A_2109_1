@@ -1,0 +1,39 @@
+# https://qiita.com/etaroid/items/88ec3a0e2d80d7cdf87a#%E3%81%93%E3%81%93%E3%81%BE%E3%81%A7%E3%81%AE%E5%85%A8%E4%BD%93%E5%83%8F-1
+# https://qiita.com/YuitoSato/items/4a4b46f5670b45739a37
+
+version: '3' # docker-composeのversion指定
+services: # 起動するサービスコンテナを書いていく
+  db: 
+    image: mysql
+    container_name: db
+    environment:
+      #MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      #MYSQL_DATABASE: main
+      MYSQL_USER: user
+      MYSQL_ROOT_PASSWORD: rootpw
+      MYSQL_PASSWORD: passw0rd
+    volumes:
+     - ./initdb:/docker-entrypoint-initdb.d
+    restart: 'always'
+    expose:
+     - '3306'
+    ports:
+     - '3306:3306'
+    networks:
+     - app-net
+
+  web: # webサーバーコンテナを起動
+    build: .
+    command: python3 run.py 
+    volumes:
+     - .:/app # currentディレクトリを/appディレクトリにbind mountする
+    ports:
+     - "8000:8000" # コンテナの8000番を公開
+    depends_on: # webサーバーコンテナを立ち上げる前にdbサーバーコンテナを立ち上げるようにする
+     - db
+    networks:
+     - app-net
+
+networks:
+    app-net:
+        driver: bridge
