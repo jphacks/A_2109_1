@@ -24,9 +24,7 @@ services: # 起動するサービスコンテナを書いていく
 
   web: # webサーバーコンテナを起動
     build: .
-    command: python3 run.py 
-    volumes:
-     - .:/app # currentディレクトリを/appディレクトリにbind mountする
+    command: bash start.sh 
     ports:
      - "8000:8000" # コンテナの8000番を公開
     depends_on: # webサーバーコンテナを立ち上げる前にdbサーバーコンテナを立ち上げるようにする
