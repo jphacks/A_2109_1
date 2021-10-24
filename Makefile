@@ -8,3 +8,6 @@ build:
 .PHONY: run
 run: build
 	docker-compose up	
+
+clean:
+	docker-compose down
