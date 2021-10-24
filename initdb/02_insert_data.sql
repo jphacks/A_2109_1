@@ -1,6 +1,6 @@
 USE main;
 INSERT INTO user VALUES
-    (0, "ICHIZYOU",  "password", "fufga@test.hoge.jp"),
+    (0, "ICHIZYOU",  "password", "fuga@test.hoge.jp"),
     (0, "NIZYOU",  "password", "fugafuga@test.hoge.jp"),
     (0, "SANZYOU", "password", "fugafugafuga@test.hoge.jp");
 
