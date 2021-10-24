@@ -1,15 +1,17 @@
 from flask import Flask, request, redirect, url_for
-import flask_login
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 import pymysql
 
+from app import top
+
 app = Flask(__name__)
 app.secret_key = 'please change later'
+app.register_blueprint(top.bp)
 
-login_manager = flask_login.LoginManager()
+login_manager = LoginManager()
 login_manager.init_app(app)
 
-class User(flask_login.UserMixin):
+class User(UserMixin):
     def __init__(self, id):
         self.id = id
 
@@ -49,7 +51,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    flask_login.logout_user()
+    logout_user()
     return 'Log Out'
 
 
@@ -58,17 +60,8 @@ def unauthorized_handler():
     return 'Unauthorized'
 
 
-@app.route('/top', methods=['GET'])
-@login_required
-def top():
-    return 'ID is ' + str(flask_login.current_user.id)
-
-                
-    
 @app.route("/")
 def hello():
-
-
     with db.cursor() as cursor:
         sql = "SELECT name FROM user;"
         cursor.execute(sql)
