@@ -44,7 +44,7 @@ def login():
         else:
             login_user(User(result[0]['ID']))
             print("Redirect")
-            return redirect(url_for('top'))
+            return "Successfully Logined!"
 
 
 @app.route('/logout')
@@ -61,7 +61,7 @@ def unauthorized_handler():
 @app.route('/top', methods=['GET'])
 @login_required
 def top():
-    return str(flask_login.current_user.id)
+    return 'ID is ' + str(flask_login.current_user.id)
 
                 
     
