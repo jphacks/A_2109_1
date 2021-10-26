@@ -13,7 +13,8 @@ CREATE TABLE user
     ID          INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name        varchar(255) NOT NULL,
     password    varchar(20) NOT NULL,
-    mailAddress varchar(255) NOT NULL
+    mailAddress varchar(255) NOT NULL,
+    image       TEXT
 );
 
 CREATE TABLE book
@@ -23,7 +24,7 @@ CREATE TABLE book
     isbn        varchar(13) NOT NULL,
     author      varchar(255) NOT NULL,
     publishDate DATE,
-    amazonLink  TEXT
+    amazonLink  MEDIUMTEXT
 );
 
 CREATE TABLE article
