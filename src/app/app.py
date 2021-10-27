@@ -2,12 +2,14 @@ from flask import Flask, request, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 import pymysql
 
-from app import top, search
+from app import top, signin, search
 
 app = Flask(__name__)
 app.secret_key = 'please change later'
+
 app.register_blueprint(top.bp)
 app.register_blueprint(search.bp)
+app.register_blueprint(signin.bp)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
