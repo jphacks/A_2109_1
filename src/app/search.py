@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_login import login_required, current_user
+from flask_login import login_required
 from app import app
 
 bp = Blueprint('search', __name__)
@@ -13,7 +13,6 @@ def search():
         SELECT * FROM book
         where isbn = %s;
         '''
-        param = (isbn)
         cursor.execute(sql, isbn)
         result = cursor.fetchall()
         print(result)

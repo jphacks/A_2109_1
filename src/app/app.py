@@ -1,5 +1,5 @@
-from flask import Flask, request, redirect, url_for
-from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
+from flask import Flask, request, jsonify
+from flask_login import LoginManager, UserMixin, login_user, logout_user
 import pymysql
 
 from app import top, signin, search
@@ -33,6 +33,7 @@ def user_loader(uid):
     user = User(uid)
     return user
 
+
 @app.route('/login', methods=['POST'])
 def login():
     mail = request.form["mailAddress"]
@@ -44,23 +45,22 @@ def login():
         print(type(result))
         print(result)
         if len(result) == 0:
-            print("Error")
-            return
+            return jsonify({"message": "User not found or Password is not correct"}), 403
         else:
             login_user(User(result[0]['ID']))
             print("Redirect")
-            return "Successfully Logined!"
+            return jsonify({"message": "Successfully Logined!"}), 200
 
 
 @app.route('/logout')
 def logout():
     logout_user()
-    return 'Log Out'
+    return jsonify({"message": 'Log Out'}), 200
 
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    return 'Unauthorized'
+    return jsonify({"message": "Unauthorized access"}), 401
 
 
 @app.route("/")
