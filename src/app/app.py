@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 import pymysql
 
-from app import top, signin, search, article
+from app import top, signin, search, article, book
 
 app = Flask(__name__)
 app.secret_key = 'please change later'
@@ -11,6 +11,7 @@ app.register_blueprint(top.bp)
 app.register_blueprint(search.bp)
 app.register_blueprint(signin.bp)
 app.register_blueprint(article.bp)
+app.register_blueprint(book.bp)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
