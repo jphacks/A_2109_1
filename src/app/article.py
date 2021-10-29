@@ -155,3 +155,37 @@ def registerBookmark():
         cursor.execute(sql, (userID, articleID))
         app.db.commit()
         return jsonify({"message": "Successfully Registerd"}), 201
+
+@bp.route('/pin', methods=['POST'])
+@login_required
+def registerPin():
+    bookID = request.form['bookID']
+    userID = current_user.id
+
+    with app.db.cursor() as cursor:
+        # ピン留めの数を取得
+        sql = '''
+        SELECT COUNT(ID) FROM user_pinned
+        WHERE userID = %s AND bookID = %s
+        '''
+        cursor.execute(sql, (userID, bookID))
+
+        # ピン留め数１０以上の場合は、古いピンを削除
+        if(cursor.fetchone()['COUNT(ID)'] >= 10):
+            sql = '''
+            DELETE FROM user_pinned
+            WHERE user_pinned.userID = %s
+            AND id = (select min(id) from user_pinned);
+            '''
+            try:
+                cursor.execute(sql, (userID, bookID))
+                app.db.commit()
+            except pymysql.Error as e:
+                print("Error %d: %s" % (e.args[0], e.args[1]))
+                return {"message": e.args[1]}, 400
+
+        # ピン留め本の登録
+        sql = 'INSERT INTO user_pinned VALUES(0, %s, %s)'
+        cursor.execute(sql, (userID, bookID))
+        app.db.commit()
+        return jsonify({"message": "Successfully Registerd"}), 201
