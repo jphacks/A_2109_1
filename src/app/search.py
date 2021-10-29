@@ -4,11 +4,11 @@ from app import app
 
 bp = Blueprint('search', __name__)
 
-@bp.route('/search')
+@bp.route('/search', methods=['GET'])
 @login_required
 def search():
     with app.db.cursor() as cursor:
-        isbn = request.form["isbn"]
+        isbn = request.args['isbn']
         sql = '''
         SELECT * FROM book
         where isbn = %s;
