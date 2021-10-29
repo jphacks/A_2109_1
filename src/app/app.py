@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 import pymysql
 
-from app import top, signin, search
+from app import top, signin, search, article
 
 app = Flask(__name__)
 app.secret_key = 'please change later'
@@ -10,6 +10,7 @@ app.secret_key = 'please change later'
 app.register_blueprint(top.bp)
 app.register_blueprint(search.bp)
 app.register_blueprint(signin.bp)
+app.register_blueprint(article.bp)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -48,7 +49,6 @@ def login():
             return jsonify({"message": "User not found or Password is not correct"}), 403
         else:
             login_user(User(result[0]['ID']))
-            print("Redirect")
             return jsonify({"message": "Successfully Logined!"}), 200
 
 

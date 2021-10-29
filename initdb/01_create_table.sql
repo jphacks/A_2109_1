@@ -30,7 +30,7 @@ CREATE TABLE book
 CREATE TABLE article
 (
     ID          INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    useerId     INT NOT NULL,
+    userId     INT NOT NULL,
     bookId      INT NOT NULL,
     context     TEXT NOT NULL,
     updatedDate DATE,
@@ -41,20 +41,20 @@ CREATE TABLE article
 CREATE TABLE book_marks
 (
     ID          INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    useerID     INT NOT NULL,
+    userID     INT NOT NULL,
     articleID   INT NOT NULL
 );
 
 CREATE TABLE user_likes
 (
     ID          INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    useerID     INT NOT NULL,
+    userID     INT NOT NULL,
     articleID   INT NOT NULL
 );
 
 CREATE TABLE user_pinned
 (
     ID          INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    useerID     INT NOT NULL,
+    userID     INT NOT NULL,
     BookID      INT NOT NULL
 );

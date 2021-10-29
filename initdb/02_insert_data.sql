@@ -20,3 +20,11 @@ INSERT INTO article VALUES
     (0, 2, 3, "仕事に込める生き様に感化", "2021-3-4", 1, 9),
     (0, 3, 3, "気づきの重要性を学んだ", "2020-10-2", 3, 10);
 
+INSERT INTO book_marks VALUES 
+    (0, 1, 1),
+    (0, 1, 2);
+
+INSERT INTO user_likes VALUES
+    (0, 1, 1),
+    (0, 1, 2);
+
