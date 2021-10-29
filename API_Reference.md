@@ -65,7 +65,8 @@
   - `context` 記事の中身 
   - `chapter` 章番号 (nullable)
   - `page` ページ番号 (nullable)
-  - `likeNum` いいねされた回数
+  - `isLiked` ログインしているユーザーにいいねされているか(true or false)
+  - `isBookmarked` ログインしているユーザーにブックマークされているか(true or false)
   - `updatedDate` 記事が最後にアップデートされた日
   - `userID` 記事を投稿したユーザーのID
 

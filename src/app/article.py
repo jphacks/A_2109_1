@@ -13,18 +13,21 @@ def getArticles():
 
     with app.db.cursor() as cursor:
         sql = '''
-        SELECT article.ID, article.userID, context, updatedDate, chapter, page,
-        COUNT(user_likes.ID) as likeNum
+        SELECT article.ID, article.userID, context, updatedDate, chapter, page
         FROM article
-        LEFT JOIN user_likes
-        ON article.ID = user_likes.articleID
-        where article.bookID = %s
-        GROUP BY article.ID
+        WHERE article.bookID = %s
         '''
-
-        cursor.execute(sql, bookID)
+        cursor.execute(sql, (bookID))
         result = cursor.fetchall()
-        print(result)
+        for article in result:
+            ID = article['ID'] 
+            sql = 'SELECT * FROM user_likes WHERE articleID = %s and userID = %s'
+            cursor.execute(sql, (ID, current_user.id))
+            article['isLiked'] = bool(len(cursor.fetchall()) != 0)
+            sql = 'SELECT * FROM book_marks WHERE articleID = %s and userID = %s'
+            cursor.execute(sql, (ID, current_user.id))
+            article['isBookmarked'] = bool(len(cursor.fetchall()) != 0)
+
         return jsonify({"message": "Successfully!!", "articles": result}), 400
 
 
