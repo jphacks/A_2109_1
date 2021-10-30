@@ -30,7 +30,7 @@ def getArticles():
             article['isBookmarked'] = bool(len(cursor.fetchall()) != 0)
 
         print(result)
-        return jsonify({"message": "Successfully!!", "articles": result}), 400
+        return jsonify({"message": "Successfully!!", "articles": result}), 200
 
 
 def isArticleExisit(articleID):
