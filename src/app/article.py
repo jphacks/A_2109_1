@@ -13,12 +13,13 @@ def getArticles():
 
     with app.db.cursor() as cursor:
         sql = '''
-        SELECT article.ID, article.userID, context, updatedDate, chapter, page
+        SELECT ID, userID, context, updatedDate, chapter, page
         FROM article
-        WHERE article.bookID = %s
+        WHERE bookID = %s
         '''
         cursor.execute(sql, (bookID))
         result = cursor.fetchall()
+        print(result)
         for article in result:
             ID = article['ID'] 
             sql = 'SELECT * FROM user_likes WHERE articleID = %s and userID = %s'
@@ -28,6 +29,7 @@ def getArticles():
             cursor.execute(sql, (ID, current_user.id))
             article['isBookmarked'] = bool(len(cursor.fetchall()) != 0)
 
+        print(result)
         return jsonify({"message": "Successfully!!", "articles": result}), 400
 
 
