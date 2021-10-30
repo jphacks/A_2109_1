@@ -133,6 +133,7 @@
   - `author`著者名(複数人の場合は/区切り)
   - `publishDate`出版日
   - `amazonLink` アマゾンの購入リンク
+  - `isPinned` ログインしているユーザーにピン留めされているか(true or false)
 
 ### ユーザー画面
 
