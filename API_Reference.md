@@ -129,7 +129,7 @@
 - 戻り値
   - なし
 
-### 検索
+### 書籍
 
 ##### /search [GET]
 
@@ -145,6 +145,19 @@
   - `publishDate`出版日
   - `amazonLink` アマゾンの購入リンク
   - `isPinned` ログインしているユーザーにピン留めされているか(true or false)
+
+##### /book [POST]
+
+本の新規登録をします
+
+- 引数
+  - `isbn` ISBNコード
+  - `title` 本のタイトル
+  - `author` 著者名
+  - `publishDate` 出版日
+  - `amazonLink`  アマゾンの購入リンク(nullable)
+- `戻り値`
+  - なし
 
 ### ユーザー画面
 
