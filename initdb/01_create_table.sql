@@ -56,5 +56,5 @@ CREATE TABLE user_pinned
 (
     ID          INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     userID     INT NOT NULL,
-    BookID      INT NOT NULL
+    bookID      INT NOT NULL
 );

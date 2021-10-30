@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app import app
+import pymysql
 
 bp = Blueprint('top', __name__)
 
@@ -8,14 +9,27 @@ bp = Blueprint('top', __name__)
 @login_required
 def top():
     with app.db.cursor() as cursor:
+        # おすすめ
         #sql ='''
-        #SELECT book.ID
-        #FROM book
-        #GROUP BY book.ID DESC 
-        #LIMIT 0,10
+        #SELECT *
+        #FROM book 
+        #order by ID desc
+        #limit 10
         #'''
         #cursor.execute(sql)
-        #result = cursor.fetchall()
-        
-        print(result)
-        return jsonify({"message": "Successfully!!", "articles": result}), 400
+        #resultA = cursor.fetchall()
+
+        # ピン留め
+        sql ='''
+        SELECT *
+        LEFT JOIN user_pinned
+        ON book.ID = user_pinned.bookID
+        FROM book
+        where user_pinnned.userID = %s
+        '''
+
+        cursor.execute(sql, current_user.id)
+        resultB = cursor.fetchall()
+        #print(resultA)
+        print(resultB)
+        return jsonify({"message": "Successfully!!", "booksB": resultB}), 400
