@@ -134,3 +134,39 @@
   - `publishDate`出版日
   - `amazonLink` アマゾンの購入リンク
   - `isPinned` ログインしているユーザーにピン留めされているか(true or false)
+
+### ユーザー画面
+
+##### /user [GET]
+
+ログイン中のユーザーに関する情報を取得します
+
+- 引数
+  -  なし
+- 戻り値
+  - `name` ユーザー名
+  - `image` ユーザーの画像(base64)
+  - `likes` いいねした記事一覧(Array)
+    - `ID` 記事ID
+    - `bookID`
+    - `userID`
+    - `context`
+    - `updatedDate`
+    - `chapter`
+    - `page`
+  - `bookmarks` ブックマークした記事一覧
+    - `ID` 記事ID
+    - `bookID`
+    - `userID`
+    - `context`
+    - `updatedDate`
+    - `chapter`
+    - `page`
+  - `posted` 投稿した記事一覧
+    - `ID` 記事ID
+    - `bookID`
+    - `userID`
+    - `context`
+    - `updatedDate`
+    - `chapter`
+    - `page`
