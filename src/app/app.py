@@ -40,7 +40,7 @@ def user_loader(uid):
 
 @app.route('/login', methods=['POST'])
 def login():
-    mail = request.form["mailAddress"]
+    mail = request.form["mail"]
     password = request.form["password"]
     with db.cursor() as cursor:
         sql = "SELECT ID from user where mailAddress = %s and password = %s" 
