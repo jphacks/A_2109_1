@@ -23,7 +23,7 @@ CREATE TABLE book
     title       varchar(255) NOT NULL,
     isbn        varchar(13) NOT NULL,
     author      varchar(255) NOT NULL,
-    publishDate DATE,
+    imageLink   MEDIUMTEXT,
     amazonLink  MEDIUMTEXT
 );
 

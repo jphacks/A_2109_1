@@ -141,8 +141,8 @@
   - `ID` 本のID
   - `title`本のタイトル
   - `isbn` ISBNコード
-  - `author`著者名(複数人の場合は/区切り)
-  - `publishDate`出版日
+  - `author`著者名(複数人の場合は/n区切り)
+  - `imageLink`本の画像のリンク
   - `amazonLink` アマゾンの購入リンク
   - `isPinned` ログインしているユーザーにピン留めされているか(true or false)
 
@@ -152,10 +152,6 @@
 
 - 引数
   - `isbn` ISBNコード
-  - `title` 本のタイトル
-  - `author` 著者名
-  - `publishDate` 出版日
-  - `amazonLink`  アマゾンの購入リンク(nullable)
 - `戻り値`
   - なし
 
