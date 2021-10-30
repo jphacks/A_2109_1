@@ -31,6 +31,4 @@ def top():
 
         cursor.execute(sql, current_user.id)
         pinnedBook = cursor.fetchall()
-        print(resultA)
-        print(resultB)
         return jsonify({"message": "Successfully!!", "recommendBook": recommendBook, "pinnedBook" : pinnedBook}), 200
