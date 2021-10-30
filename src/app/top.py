@@ -10,26 +10,27 @@ bp = Blueprint('top', __name__)
 def top():
     with app.db.cursor() as cursor:
         # おすすめ
-        #sql ='''
-        #SELECT *
-        #FROM book 
-        #order by ID desc
-        #limit 10
-        #'''
-        #cursor.execute(sql)
-        #resultA = cursor.fetchall()
+        sql ='''
+        SELECT *
+        FROM book 
+        order by ID desc
+        limit 10
+        '''
+        cursor.execute(sql)
+        recommendBook = cursor.fetchall()
 
         # ピン留め
         sql ='''
-        SELECT *
-        LEFT JOIN user_pinned
-        ON book.ID = user_pinned.bookID
-        FROM book
-        where user_pinnned.userID = %s
+        SELECT * FROM book
+        INNER JOIN (
+            SELECT * FROM user_pinned
+            WHERE user_pinned.userID = %s
+        ) AS pin
+        ON book.ID = pin.bookID
         '''
 
         cursor.execute(sql, current_user.id)
-        resultB = cursor.fetchall()
-        #print(resultA)
+        pinnedBook = cursor.fetchall()
+        print(resultA)
         print(resultB)
-        return jsonify({"message": "Successfully!!", "booksB": resultB}), 400
+        return jsonify({"message": "Successfully!!", "recommendBook": recommendBook, "pinnedBook" : pinnedBook}), 200
