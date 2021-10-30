@@ -23,15 +23,15 @@ CREATE TABLE book
     title       varchar(255) NOT NULL,
     isbn        varchar(13) NOT NULL,
     author      varchar(255) NOT NULL,
-    publishDate DATE,
+    imageLink   MEDIUMTEXT,
     amazonLink  MEDIUMTEXT
 );
 
 CREATE TABLE article
 (
     ID          INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    userId     INT NOT NULL,
-    bookId      INT NOT NULL,
+    userID     INT NOT NULL,
+    bookID      INT NOT NULL,
     context     TEXT NOT NULL,
     updatedDate DATE,
     chapter     INT,

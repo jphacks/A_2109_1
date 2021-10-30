@@ -33,6 +33,6 @@ def search():
                 'title': result[0]['title'],
                 'isbn': result[0]['isbn'],
                 'author': result[0]['author'],
-                'publishDate': result[0]['publishDate'],
+                'imageLink': result[0]['imageLink'],
                 'amazonLink': result[0]['amazonLink'],
                 'isPinned': isPinned}), 200

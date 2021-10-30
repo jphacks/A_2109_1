@@ -58,7 +58,7 @@ def putArticles():
             datetime.date.today(), chapter, page))
 
         app.db.commit()
-        return jsonify({"message": "Succcessfully registered"}), 400
+        return jsonify({"message": "Succcessfully registered"}), 200
 
 
 @bp.route('', methods=['DELETE'])
