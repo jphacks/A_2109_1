@@ -166,19 +166,21 @@ def registerPin():
         # ピン留めの数を取得
         sql = '''
         SELECT COUNT(ID) FROM user_pinned
-        WHERE userID = %s AND bookID = %s
+        WHERE userID = %s
         '''
-        cursor.execute(sql, (userID, bookID))
+        cursor.execute(sql, userID)
 
         # ピン留め数１０以上の場合は、古いピンを削除
         if(cursor.fetchone()['COUNT(ID)'] >= 10):
             sql = '''
             DELETE FROM user_pinned
-            WHERE user_pinned.userID = %s
-            AND id = (select min(id) from user_pinned);
+            WHERE ID = (SELECT MIN(ID) FROM (
+                    (SELECT MIN(ID) FROM user_pinned WHERE userID = %s)
+                ) AS tmp
+            )
             '''
             try:
-                cursor.execute(sql, (userID, bookID))
+                cursor.execute(sql, userID)
                 app.db.commit()
             except pymysql.Error as e:
                 print("Error %d: %s" % (e.args[0], e.args[1]))
