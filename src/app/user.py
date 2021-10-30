@@ -1,18 +1,20 @@
 from flask import Blueprint, request, jsonify
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app import app
 
 bp = Blueprint('user', __name__)
 
 @bp.route('/user', methods=['GET'])
 @login_required
-def book():
+def user():
     with app.db.cursor() as cursor:
         sql = '''
         SELECT name, image
         FROM user
         WHERE ID = %s
         '''
+        cursor.execute(sql, current_user.id)
+        result = cursor.fetchall()[0]
 
         # いいね一覧
         sql = '''
@@ -24,6 +26,8 @@ def book():
         where user_likes.userID = %s 
         GROUP BY article.ID
         '''
+        cursor.execute(sql, current_user.id)
+        result['likes'] = cursor.fetchall()
 
         # ブックマーク一覧
         sql = '''
@@ -37,6 +41,8 @@ def book():
         where book_marks.userID = %s 
         GROUP BY article.ID
         '''
+        cursor.execute(sql, current_user.id)
+        result['bookmarks'] = cursor.fetchall()
 
         # 投稿記事一覧
         sql = '''
@@ -48,7 +54,9 @@ def book():
         where article.userID = %s 
         GROUP BY article.ID
         '''
+        cursor.execute(sql, current_user.id)
+        result['posted'] = cursor.fetchall()
 
-        cursor.execute(sql)
-        cursor.fetchall()
+        print(result)
+
         return jsonify({"message": "Succcessfully registered"}), 400
