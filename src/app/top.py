@@ -1,15 +1,34 @@
-from flask import Blueprint
+from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app import app
+import pymysql
 
 bp = Blueprint('top', __name__)
 
-@bp.route('/top')
+@bp.route('/top', methods=['GET'])
 @login_required
 def top():
     with app.db.cursor() as cursor:
-        sql = "SELECT name FROM user where ID = %s;"
-        cursor.execute(sql, current_user.id)
-        result = cursor.fetchall()
+        # おすすめ
+        sql ='''
+        SELECT *
+        FROM book 
+        order by ID desc
+        limit 10
+        '''
+        cursor.execute(sql)
+        recommendBook = cursor.fetchall()
 
-        return 'User Name is ' + result[0]['name']
+        # ピン留め
+        sql ='''
+        SELECT * FROM book
+        INNER JOIN (
+            SELECT * FROM user_pinned
+            WHERE user_pinned.userID = %s
+        ) AS pin
+        ON book.ID = pin.bookID
+        '''
+
+        cursor.execute(sql, current_user.id)
+        pinnedBook = cursor.fetchall()
+        return jsonify({"message": "Successfully!!", "recommendBook": recommendBook, "pinnedBook" : pinnedBook}), 200
