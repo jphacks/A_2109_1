@@ -65,7 +65,8 @@
   - `context` 記事の中身 
   - `chapter` 章番号 (nullable)
   - `page` ページ番号 (nullable)
-  - `likeNum` いいねされた回数
+  - `isLiked` ログインしているユーザーにいいねされているか(true or false)
+  - `isBookmarked` ログインしているユーザーにブックマークされているか(true or false)
   - `updatedDate` 記事が最後にアップデートされた日
   - `userID` 記事を投稿したユーザーのID
 
@@ -132,3 +133,39 @@
   - `author`著者名(複数人の場合は/区切り)
   - `publishDate`出版日
   - `amazonLink` アマゾンの購入リンク
+
+### ユーザー画面
+
+##### /user [GET]
+
+ログイン中のユーザーに関する情報を取得します
+
+- 引数
+  -  なし
+- 戻り値
+  - `name` ユーザー名
+  - `image` ユーザーの画像(base64)
+  - `likes` いいねした記事一覧(Array)
+    - `ID` 記事ID
+    - `bookID`
+    - `userID`
+    - `context`
+    - `updatedDate`
+    - `chapter`
+    - `page`
+  - `bookmarks` ブックマークした記事一覧
+    - `ID` 記事ID
+    - `bookID`
+    - `userID`
+    - `context`
+    - `updatedDate`
+    - `chapter`
+    - `page`
+  - `posted` 投稿した記事一覧
+    - `ID` 記事ID
+    - `bookID`
+    - `userID`
+    - `context`
+    - `updatedDate`
+    - `chapter`
+    - `page`
