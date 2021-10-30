@@ -14,7 +14,7 @@ CREATE TABLE user
     name        varchar(255) NOT NULL,
     password    varchar(20) NOT NULL,
     mailAddress varchar(255) NOT NULL,
-    image       TEXT
+    image       LONGTEXT
 );
 
 CREATE TABLE book

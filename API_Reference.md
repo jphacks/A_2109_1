@@ -48,7 +48,7 @@
   - `name`
   - `mail`
   - `password`
-  - `image`　ユーザーの画像(base64)
+  - `image`　ユーザーの画像(base64) nullable
 - 戻り値
   - なし
 

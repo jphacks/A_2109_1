@@ -9,7 +9,7 @@ def signin():
     name = request.form["name"]
     mail = request.form["mail"]
     password = request.form["password"]
-    image = request.form["image"]
+    image = request.form.get("image")
 
     with app.db.cursor() as cursor:
         sql = "SELECT ID from user where mailAddress = %s"
