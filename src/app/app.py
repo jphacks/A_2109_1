@@ -6,6 +6,7 @@ from app import top, signin, search, article, book, user
 
 app = Flask(__name__)
 app.secret_key = 'please change later'
+app.config['JSON_AS_ASCII'] = False
 
 app.register_blueprint(top.bp)
 app.register_blueprint(search.bp)

@@ -14,6 +14,7 @@ services: # 起動するサービスコンテナを書いていく
       MYSQL_PASSWORD: passw0rd
     volumes:
      - ./initdb:/docker-entrypoint-initdb.d
+     - ./my.cnf:/etc/mysql/conf.d/my.cnf
     restart: 'always'
     expose:
      - '3306'
