@@ -28,3 +28,6 @@ INSERT INTO user_likes VALUES
     (0, 1, 1),
     (0, 1, 2);
 
+INSERT INTO user_pinned VALUES
+    (0, 1, 1),
+    (0, 1, 2);

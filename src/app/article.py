@@ -13,18 +13,21 @@ def getArticles():
 
     with app.db.cursor() as cursor:
         sql = '''
-        SELECT article.ID, article.userID, context, updatedDate, chapter, page,
-        COUNT(user_likes.ID) as likeNum
+        SELECT article.ID, article.userID, context, updatedDate, chapter, page
         FROM article
-        LEFT JOIN user_likes
-        ON article.ID = user_likes.articleID
-        where article.bookID = %s
-        GROUP BY article.ID
+        WHERE article.bookID = %s
         '''
-
-        cursor.execute(sql, bookID)
+        cursor.execute(sql, (bookID))
         result = cursor.fetchall()
-        print(result)
+        for article in result:
+            ID = article['ID'] 
+            sql = 'SELECT * FROM user_likes WHERE articleID = %s and userID = %s'
+            cursor.execute(sql, (ID, current_user.id))
+            article['isLiked'] = bool(len(cursor.fetchall()) != 0)
+            sql = 'SELECT * FROM book_marks WHERE articleID = %s and userID = %s'
+            cursor.execute(sql, (ID, current_user.id))
+            article['isBookmarked'] = bool(len(cursor.fetchall()) != 0)
+
         return jsonify({"message": "Successfully!!", "articles": result}), 400
 
 
@@ -150,5 +153,39 @@ def registerBookmark():
         # 登録
         sql = 'INSERT INTO book_marks VALUES(0, %s, %s)'
         cursor.execute(sql, (userID, articleID))
+        app.db.commit()
+        return jsonify({"message": "Successfully Registerd"}), 201
+
+@bp.route('/pin', methods=['POST'])
+@login_required
+def registerPin():
+    bookID = request.form['bookID']
+    userID = current_user.id
+
+    with app.db.cursor() as cursor:
+        # ピン留めの数を取得
+        sql = '''
+        SELECT COUNT(ID) FROM user_pinned
+        WHERE userID = %s AND bookID = %s
+        '''
+        cursor.execute(sql, (userID, bookID))
+
+        # ピン留め数１０以上の場合は、古いピンを削除
+        if(cursor.fetchone()['COUNT(ID)'] >= 10):
+            sql = '''
+            DELETE FROM user_pinned
+            WHERE user_pinned.userID = %s
+            AND id = (select min(id) from user_pinned);
+            '''
+            try:
+                cursor.execute(sql, (userID, bookID))
+                app.db.commit()
+            except pymysql.Error as e:
+                print("Error %d: %s" % (e.args[0], e.args[1]))
+                return {"message": e.args[1]}, 400
+
+        # ピン留め本の登録
+        sql = 'INSERT INTO user_pinned VALUES(0, %s, %s)'
+        cursor.execute(sql, (userID, bookID))
         app.db.commit()
         return jsonify({"message": "Successfully Registerd"}), 201
